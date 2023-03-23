@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <title> Table </title>
+    </head>
+    <body>
+        <a href="{{ url_for('index') }}">Начальная страница</a>
+        <div align="center">
+        <h3>Стоимость квартиры по модели составляет {{ model_price }} рублей</h3>
+        <h3>Средняя стоимость исходя из предложений {{ mean_price }} рублей</h3>
+        </div>
+        <div align="center">
+            <table>
+                <h3> Предложения в радиусе 500 метров</h3>
+                <h1>
+                <!--Displaying the converted table-->
+                     {% for table in tables %}
+                    <h2>{{titles[loop.index]}}</h2>
+                    {{ table|safe }}
+                    {% endfor %}
+                </h1>
+            </table>
+        </div>
+    </body>
+</html>

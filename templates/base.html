@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+
+</head>
+<body>
+
+<h1>Параметры дома</h1>
+
+<form action="/start" method='post'>
+
+    <input name="address" type="text" placeholder="Адрес объекта">
+
+    </select>
+        <select name="rooms">
+        {% for room in rooms %}
+        <option value="" selected disabled hidden >Количество комнат</option>
+        <option value="{{ room }}">{{ room }}</option>
+        {% endfor %}
+    </select>
+
+    <input name="square" type="text" placeholder="Площадь объекта">
+   <input name="floor" type="text" placeholder="Этаж">
+    <input name="hight" type="text" placeholder="Этажей в доме">
+
+    <select name="material" >
+        {% for material in materials %}
+        <option value="" selected disabled hidden >Материал стен</option>
+        <option value="{{ material }}">{{ material }}</option>
+        {% endfor %}
+    </select>
+    </select>
+
+    </select>
+        <select name="newbuilding">
+        {% for newbuild in newbuilds %}
+        <option value="{{ newbuild }}">{{ newbuild }}</option>
+        {% endfor %}
+    </select>
+
+
+    <input type="submit">
+</form>
+</body>
+</html>
