@@ -32,7 +32,7 @@ metro_list = (square_1905, dinamo, uralskaya, mash, uralmash, kosmos, geolog, ch
 
 
 def get_area_list(param, db):
-    con = sqlite3.connect("/users/andrejmironov/n1project/static/apartments.db")
+    con = sqlite3.connect(os.path.join(os.getcwd(), 'static/apartments.db'))
     df = pd.read_sql_query(
     "SELECT DISTINCT {} FROM {}".format(param, db), con
     )
@@ -57,7 +57,7 @@ def get_distance(address):
 
 
 def get_valid_address(coord):
-    con = sqlite3.connect("/users/andrejmironov/n1project/static/apartments.db")
+    con = sqlite3.connect(os.path.join(os.getcwd(), 'static/apartments.db'))
     df_valid_address = pd.read_sql_query(
         "select address, latitude, longitude from coords", con
     )
@@ -121,11 +121,13 @@ def start():
     d = {}
     if request.form.get('newbuilding') == 'Новостройка':
         list_features = features[1]
-        with open('/users/andrejmironov/n1project/static/dtr_first.pickle', 'rb') as f:
+        path = os.path.join(os.getcwd(), 'static/dtr_first.pickle')
+        with open(path, 'rb') as f:
             dtr = pickle.load(f)
     else:
         list_features = features[0]
-        with open('/users/andrejmironov/n1project/static/gbr_second.pickle', 'rb') as f:
+        path = os.path.join(os.getcwd(), 'static/gbr_second.pickle')
+        with open(path, 'rb') as f:
             dtr = pickle.load(f)
     for i in list_features:
         d[i] = 0
