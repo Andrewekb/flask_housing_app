@@ -1,9 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request, render_template_string
+from flask import Flask, render_template, request
 import pickle
 import pandas as pd
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
-import numpy as np
 import os
 import sqlite3
 
@@ -154,6 +153,8 @@ def start():
     mean_price = int(data.kv.sum()/len(data) * int(request.form.get('square')))
     return render_template('table.html', tables=[data.to_html()], titles=[''], model_price=model_price,
                            mean_price=mean_price)
+
+
 
 
 
