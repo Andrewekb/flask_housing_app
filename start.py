@@ -91,7 +91,7 @@ features = [['floor', 'square', 'hight', 'first', 'last', 'kv', 'distance_centre
        'newbuilding_Новостройка', 'rooms_1-к', 'rooms_2-к', 'rooms_3-к',
        'rooms_4-к', 'rooms_5-к', 'area_Академический', 'area_Верх-Исетский',
        'area_Железнодорожный', 'area_Кировский', 'area_Ленинский',
-       'area_Нижнесергинский', 'area_Октябрьский', 'area_Орджоникидзевский',
+       'area_Октябрьский', 'area_Орджоникидзевский',
        'area_Чкаловский']]
 
 
