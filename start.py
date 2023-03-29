@@ -150,7 +150,7 @@ def start():
     data = get_valid_address(l[3])
     model_price = int(dtr.predict(pd.DataFrame(d, index=[0]).drop(columns=['kv']))) * int(request.form.get('square'))
     mean_price = int(data.kv.sum()/len(data) * int(request.form.get('square')))
-    return render_template('table.html', tables=[data.to_html()], titles=[''], model_price=model_price,
+    return render_template('table.html', headers=tuple(data.columns), data=data.values.tolist(), model_price=model_price,
                            mean_price=mean_price)
 
 
