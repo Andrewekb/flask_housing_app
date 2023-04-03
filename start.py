@@ -150,8 +150,64 @@ def start():
     data = get_valid_address(l[3])
     model_price = int(dtr.predict(pd.DataFrame(d, index=[0]).drop(columns=['kv']))) * int(request.form.get('square'))
     mean_price = int(data.kv.sum()/len(data) * int(request.form.get('square')))
-    return render_template('table.html', headers=tuple(data.columns), data=data.values.tolist(), model_price=model_price,
-                           mean_price=mean_price)
+
+
+
+    con = sqlite3.connect(os.path.join(os.getcwd(), 'static/apartments.db'))
+    cur = con.cursor()
+    
+
+    data1 = cur.execute('''
+     select rooms, count(kv) from 
+     (select * from total t left 
+     join coords c on t.address == c.address
+     where area = '{}' and newbuilding = '{}')
+     group by rooms
+     '''.format(l[2], request.form.get("newbuilding"))).fetchall()
+    labels = [row[0] for row in data1]
+    values = [row[1] for row in data1]
+
+
+    data2 = cur.execute('''
+     select rooms, avg(price) from 
+     (select * from total t left 
+     join coords c on t.address == c.address
+     where area = '{}' and newbuilding = '{}')
+     group by rooms
+     '''.format(l[2], request.form.get("newbuilding"))).fetchall()
+    labels2 = [row[0] for row in data2]
+    values2 = [row[1] for row in data2]
+
+
+    data3 = list(cur.execute('''
+      select distinct square, kv from 
+      (select * from total t left 
+      join coords c on t.address == c.address
+      where area = '{}' and newbuilding = '{}')
+      '''.format(l[2], request.form.get("newbuilding"))).fetchall())
+    labels3 = [row[0] for row in data3]
+    values3 = [row[1] for row in data3]
+    nelist = []
+    for i, j in zip(labels3, values3):
+        nelist.append({'x':i, 'y':j})
+    nelist = str(nelist).replace('\'', '')
+
+
+    data4 = cur.execute('''
+     select rooms, avg(kv) from 
+     (select * from total t left 
+     join coords c on t.address == c.address
+     where area = '{}' and newbuilding = '{}')
+     group by rooms
+     '''.format(l[2], request.form.get("newbuilding"))).fetchall()
+    labels4 = [row[0] for row in data4]
+    values4 = [row[1] for row in data4]
+
+    con.close()
+
+
+    return render_template('table.html', headers=("Адрес", "Материал", "К-во этажей", "Площадь", "Стоимость 1 кв м", "Стоимость квартиры"), data=data.values.tolist(), model_price=model_price,
+                           mean_price=mean_price, labels=labels, values=values, labels2=labels2, values2=values2, nelist=nelist, labels4=labels4, values4=values4)
 
 
 

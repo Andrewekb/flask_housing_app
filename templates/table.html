@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-        <title> Table </title>
+        <title> Расчет стоимости </title>
 
 <!doctype html>
 <html lang="en">
@@ -10,6 +10,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <title>Document</title>
 
     <title>Bank Customer Feedback Form</title>
@@ -20,8 +23,12 @@
     <body>
         <a href="{{ url_for('index') }}">Начальная страница</a>
         <div align="center">
-        <h3>Стоимость квартиры по модели составляет {{ model_price }} рублей</h3>
-        <h3>Средняя стоимость исходя из предложений {{ mean_price }} рублей</h3>
+        <h4>Стоимость квартиры по модели составляет {{ model_price }} рублей</h4>
+        <h4>Средняя стоимость исходя из предложений {{ mean_price }} рублей</h4>
+        </div>
+        <div align="center">
+        <h4> Предложения в радиусе 500 метров</h4>
+        
         </div>
         <table align="center">
 
@@ -40,5 +47,125 @@
           </tr>
           {% endfor %}
       </table>
+      <div align="center">
+        <h4>Визуализация данных для района расположения квартиры</h4>
+      </div>
+      
+      <div align="center">
+        <canvas id="BarChart" width="800" height="400"></canvas>
+  </div>
+  
+  <script>
+    var ctx = document.getElementById('BarChart');
+  
+    var BarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{ labels | safe }},
+        datasets: [{
+          label: 'Количество предложений',
+          borderColor: 'rgb(75, 192, 192)',
+          data: {{ values | safe }},
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: false,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+
+
+<div align="center">
+  <canvas id="BarChart2" width="800" height="400"></canvas>
+</div>
+
+<script>
+var ctx = document.getElementById('BarChart2');
+
+var BarChart2 = new Chart(ctx, {
+type: 'bar',
+data: {
+  labels: {{ labels2 | safe }},
+  datasets: [{
+    label: 'Средняя стоимость квартиры',
+    borderColor: 'rgb(75, 192, 192)',
+    data: {{ values2 | safe }},
+    borderWidth: 1
+  }]
+},
+options: {
+  responsive: false,
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+}
+});
+</script>
+  
+
+<div align="center">
+  <canvas id="lineChart3" width="800" height="400"></canvas>
+</div>
+
+<script>
+var ctx = document.getElementById('lineChart3');
+
+var lineChart3 = new Chart(ctx, {
+type: 'scatter',
+data: {
+  datasets: [{
+    label: 'Распределение стоимости квадратного метра для площади объекта',
+    borderColor: 'rgb(75, 192, 192)',
+    data: {{ nelist | safe }},
+    showLine:false,
+  }]
+},
+options: {
+  responsive: false,
+  scales: {
+
+  }
+}
+});
+</script>
+
+
+<div align="center">
+  <canvas id="lineChart4" width="800" height="400"></canvas>
+</div>
+
+<script>
+var ctx = document.getElementById('lineChart4');
+
+var lineChart4 = new Chart(ctx, {
+type: 'bar',
+data: {
+  labels: {{ labels4 | safe }},
+  datasets: [{
+    label: 'Средняя стоимость квадратного метра',
+    borderColor: 'rgb(75, 192, 192)',
+    data: {{ values4 | safe }},
+    borderWidth: 1
+  }]
+},
+options: {
+  responsive: false,
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+}
+});
+</script>
+
     </body>
 </html>
